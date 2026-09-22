@@ -11,7 +11,7 @@
 export default {
   data() {
     return {
-      title: 'Hello World!',
+      title: 'Hello Main!',
     }
   },
   onLoad() {},
