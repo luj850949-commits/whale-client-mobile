@@ -61,8 +61,10 @@
     "@dcloudio/uni-cli-shared": "3.0.0-5020620260917001",
     "@dcloudio/uni-stacktracey": "3.0.0-5020620260917001",
     "@dcloudio/vite-plugin-uni": "3.0.0-5020620260917001",
+    "@tailwindcss/vite": "^4.3.3",
     "@vue/runtime-core": "^3.4.21",
     "rollup": "4.14.3",
+    "tailwindcss": "^4.3.3",
     "vite": "5.2.8"
   }
 }
