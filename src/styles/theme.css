@@ -18,11 +18,21 @@ page {
   --color-primary: #4D6BFE;
   --color-primary-hover: #3B5BFF;
   --color-primary-soft: #EEF2FF;
+  --color-on-primary: #FFFFFF;
 
   /* 语义色 */
   --color-success: #22C55E;
   --color-warning: #F59E0B;
   --color-danger: #EF4444;
+
+  /* 代码块（Markdown 渲染） */
+  --code-bg: #F2F4F8;
+  --code-text: #1F2329;
+  --code-comment: #8A919F;
+  --code-keyword: #C2456B;
+  --code-string: #0E7C5A;
+  --code-number: #B26A00;
+  --code-function: #3A5CCC;
 
   /* 圆角 */
   --radius-sm: 8px;
@@ -60,10 +70,20 @@ page {
   --color-primary: #6B8AFF;
   --color-primary-hover: #8BA3FF;
   --color-primary-soft: #1E2438;
+  --color-on-primary: #FFFFFF;
 
   --color-success: #34D399;
   --color-warning: #FBBF24;
   --color-danger: #F87171;
+
+  /* 代码块（Markdown 渲染） */
+  --code-bg: #14171E;
+  --code-text: #E6E8EC;
+  --code-comment: #767E8C;
+  --code-keyword: #E58FAE;
+  --code-string: #7CD3A8;
+  --code-number: #E0B36A;
+  --code-function: #8FB4FF;
 }
 
 /* ========== 页面基础样式 ========== */
