@@ -97,3 +97,11 @@ page {
 page * {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
+
+/* ========== uni-app 内置组件修正 ========== */
+
+/* Tailwind preflight 把 svg 设成 display: block，导致 uni-app toast 的图标
+   不再跟随父级 text-align: center，会贴在黑框左侧。这里用 auto 外边距拉回中间 */
+.uni-toast .uni-toast__icon {
+  margin: 20px auto 0 !important;
+}

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./theme.css";
+@import "./rich-content.css";
 
 @theme inline {
   --color-bg: var(--color-bg);

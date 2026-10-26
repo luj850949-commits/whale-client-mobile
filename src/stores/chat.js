@@ -12,6 +12,11 @@ function genId(prefix) {
   return `${prefix}_${Date.now().toString(36)}_${uid}`
 }
 
+// 是否真的聊过：只有开场白不算，必须以用户发过消息为准
+function hasUserMessage(session) {
+  return Boolean(session?.messages?.some((m) => m.role === 'user'))
+}
+
 /**
  * 对话数据层：会话 + 消息。
  * 目前全部存在本地，接入后端后只需替换页面里的 send()。
@@ -78,6 +83,42 @@ export const useChatStore = defineStore('chat', () => {
     return session
   }
 
+  // 用户主动新建：建会话 + 开场白，并立即落盘。
+  // 当前会话还没聊过（只有开场白）时直接复用，避免连续点新建堆出一串空会话
+  function newSession() {
+    if (currentSession.value && !hasUserMessage(currentSession.value)) {
+      return currentSession.value
+    }
+
+    const session = createSession()
+    appendMessage('ai', GREETING)
+    persist()
+    return session
+  }
+
+  function switchSession(id) {
+    if (!sessions.value.some((s) => s.id === id)) return
+    currentSessionId.value = id
+    persist()
+  }
+
+  // 删掉当前会话后自动切到最近一个；全删空时补一个新会话，避免页面空掉
+  function deleteSession(id) {
+    const index = sessions.value.findIndex((s) => s.id === id)
+    if (index === -1) return
+
+    sessions.value.splice(index, 1)
+    if (currentSessionId.value === id) {
+      const next = sessions.value[0]
+      currentSessionId.value = next ? next.id : ''
+      if (!next) {
+        newSession()
+        return
+      }
+    }
+    persist()
+  }
+
   function appendMessage(role, content, extra = {}) {
     const session = ensureSession()
     const msg = { id: genId('m'), role, content, createdAt: Date.now(), status: 'done', ...extra }
@@ -95,6 +136,14 @@ export const useChatStore = defineStore('chat', () => {
     if (msg) Object.assign(msg, patch)
   }
 
+  function removeMessage(id) {
+    const session = currentSession.value
+    const index = session ? session.messages.findIndex((m) => m.id === id) : -1
+    if (index === -1) return
+    session.messages.splice(index, 1)
+    persist()
+  }
+
   return {
     sessions,
     currentSessionId,
@@ -104,7 +153,11 @@ export const useChatStore = defineStore('chat', () => {
     persist,
     createSession,
     ensureSession,
+    newSession,
+    switchSession,
+    deleteSession,
     appendMessage,
     updateMessage,
+    removeMessage,
   }
 })
